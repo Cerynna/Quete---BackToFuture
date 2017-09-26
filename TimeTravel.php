@@ -4,6 +4,7 @@ namespace wcs;
 
 use \DatePeriod;
 use \DateInterval;
+use \DateTime;
 
 class TimeTravel
 {
@@ -19,8 +20,8 @@ class TimeTravel
      */
     public function __construct($start, $end)
     {
-        $this->start = $start;
-        $this->end = $end;
+        $this->start = new DateTime($start);
+        $this->end = new DateTime($end);
     }
 
     /**
@@ -29,7 +30,7 @@ class TimeTravel
     public function getTravelInfo()
     {
         $interval = $this->start->diff($this->end);
-        return "Il y a " . $interval->format('%R%Y') . " années " . $interval->format('%R%m') . " mois " . $interval->format('%R%d') . " jours " . $interval->format('%R%H') . " heures " . $interval->format('%R%i') . " minutes " . $interval->format('%R%s') . " secondes entre les deux dates";
+        return $interval->format("Il y a %y années, %m mois, %d jours, %h heures, %i minutes et %s secondes.");
     }
 
     /**
@@ -50,16 +51,16 @@ class TimeTravel
     /**
      * @return array
      */
-    public function backToFutureStepByStep()
+    public function backToFutureStepByStep($step)
     {
         $begin = $this->start;
         $end = $this->end;
-        $interval = new DateInterval('P1M1W1D');
+        $interval = new DateInterval($step);
         $dateRange = new DatePeriod($begin, $interval, $end);
         foreach ($dateRange as $date) {
-            $step[] = $date->format("M d Y A H:i");
+            $steps[] = $date->format("M d Y A H:i");
         }
-        return $step;
+        return $steps;
     }
 
 
