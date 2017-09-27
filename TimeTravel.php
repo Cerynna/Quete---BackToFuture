@@ -1,6 +1,6 @@
 <?php
 
-namespace wcs;
+namespace Wcs;
 
 use \DatePeriod;
 use \DateInterval;
